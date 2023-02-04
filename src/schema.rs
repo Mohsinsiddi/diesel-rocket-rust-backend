@@ -16,6 +16,8 @@ diesel::table! {
         email -> Varchar,
         role_id -> Varchar,
         password -> Varchar,
+        address -> Varchar,
+        role_name -> Varchar,
     }
 }
 

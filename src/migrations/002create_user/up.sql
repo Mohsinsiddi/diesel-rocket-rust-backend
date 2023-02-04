@@ -8,4 +8,6 @@ CREATE TABLE users (
   email VARCHAR NOT NULL UNIQUE CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),
   role_id VARCHAR REFERENCES roles (id) NOT NULL,
   password VARCHAR NOT NULL
+  address VARCHAR NOT NULL,
+  role_name VARCHAR NOT NULL UNIQUE
 )
