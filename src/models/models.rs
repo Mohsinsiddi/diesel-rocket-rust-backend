@@ -16,6 +16,8 @@ pub struct User {
     pub email: String,
     pub role_id: String,
     pub password: String,
+    pub address: String,
+    pub user_name: String
 }
 
 #[derive(Insertable, Serialize, AsChangeset)]
@@ -28,6 +30,8 @@ pub struct NewUser<'a> {
     pub email: &'a str,
     pub role_id: &'a str,
     pub password: &'a str,
+    pub address: &'a str,
+    pub user_name: &'a str
 }
 
 #[derive(Deserialize)]
@@ -38,6 +42,8 @@ pub struct UserInputUser {
     pub email: String,
     pub role_id: Option<String>,
     pub password: String,
+    pub address : String,
+    pub user_name: String
 }
 
 #[derive(Deserialize, Serialize)]
@@ -48,6 +54,8 @@ pub struct UserInputUpdateUser {
     pub email: Option<String>,
     pub role_id: Option<String>,
     pub password: Option<String>,
+    pub address : Option<String>,
+    pub user_name: Option<String>
 }
 
 /*

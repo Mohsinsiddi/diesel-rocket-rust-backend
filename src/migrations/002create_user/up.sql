@@ -9,5 +9,5 @@ CREATE TABLE users (
   role_id VARCHAR REFERENCES roles (id) NOT NULL,
   password VARCHAR NOT NULL
   address VARCHAR NOT NULL,
-  role_name VARCHAR NOT NULL UNIQUE
+  user_name VARCHAR NOT NULL UNIQUE
 )

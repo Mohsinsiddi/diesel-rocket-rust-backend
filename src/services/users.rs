@@ -64,6 +64,8 @@ pub fn create_user(user_details: &UserInputUser) -> Value {
         email: &user_details.email,
         role_id: &mut role[0].id,
         password: &hashed,
+        address:&user_details.address,
+        user_name:&user_details.user_name
     };
 
     let created_user: User = diesel::insert_into(users::table)
@@ -105,6 +107,8 @@ pub fn update_user(user_details: &UserInputUpdateUser) -> Value {
             },
             None => &existing_user[0].password,
         },
+        address:&user_details.address.clone().unwrap_or(existing_user[0].address.clone()),
+        user_name:&user_details.user_name.clone().unwrap_or(existing_user[0].user_name.clone()),
     };
     
     let updated_user: User = diesel::update(users.filter(email.eq(user_details.email.clone().unwrap())))
