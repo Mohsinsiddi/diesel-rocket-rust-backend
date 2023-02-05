@@ -10,6 +10,7 @@ use routes::index::index;
 use routes::users::{get_users, create_role, create_user, update_user};
 use routes::collections::{get_collections,create_collection};
 use routes::trades::{get_trades,create_trade};
+use routes::orders::{get_orders,create_order};
 
 #[catch(404)]
 fn not_found() -> Value {
@@ -37,6 +38,8 @@ fn rocket() -> _ {
               get_collections,
               create_collection,
               get_trades,
-              create_trade])
+              create_trade,
+              get_orders,
+              create_order])
     .register("/", catchers![not_found, server_error])
 }

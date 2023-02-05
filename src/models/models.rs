@@ -1,7 +1,7 @@
 use diesel::{prelude::*};
 use rocket::serde::{Serialize, Deserialize};
 
-use crate::schema::{roles, users, collections, trades};
+use crate::schema::{roles, users, collections, trades,orders};
 
 /*
 * User models begin from here
@@ -153,4 +153,38 @@ pub struct UserInputTrade {
     pub deposited_amount: i32,
     pub buyer_address: String,
     pub seller_address: String,
+}
+
+/*
+* Order Models begins here
+*/
+
+#[derive(Queryable, Serialize, Deserialize)]
+pub struct Order {
+    pub id: String,
+    pub trade_id: String,
+    pub collection_id: String,
+    pub trade_amount: i32,
+    pub rarity: String,
+    pub collection_root: String,
+}
+
+#[derive(Insertable, Serialize, AsChangeset)]
+#[diesel(table_name = orders)]
+pub struct NewOrder<'a> {
+    pub id:&'a str,
+    pub trade_id: &'a str,
+    pub collection_id: &'a str,
+    pub trade_amount: &'a i32,
+    pub rarity: &'a str,
+    pub collection_root: &'a str,
+} 
+
+#[derive(Deserialize)]
+pub struct UserInputOrder {
+    pub trade_id: String,
+    pub collection_id: String,
+    pub trade_amount: i32,
+    pub rarity: String,
+    pub collection_root: String,
 }
