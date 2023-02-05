@@ -23,3 +23,11 @@ pub fn create_user(user_info: Json<UserInputUser>) -> Value {
 pub fn update_user(user_info: Json<UserInputUpdateUser>) -> Value {
     services::users::update_user(&user_info)
 }
+
+
+
+
+
+
+
+

@@ -1,6 +1,0 @@
--- Your SQL goes here
-
-CREATE TABLE roles (
-  id VARCHAR PRIMARY KEY NOT NULL,
-  role_name VARCHAR NOT NULL UNIQUE
-)
