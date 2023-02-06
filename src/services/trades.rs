@@ -17,10 +17,10 @@ pub fn get_trade(trade_id :&str) -> Value {
     .filter(id.eq(&appropriate_filter))
     .limit(1)
     .load::<Trade>(connection)
-    .expect("Error loading role");
+    .expect("Error loading trade");
 
     let search_trade_id = &user[0].id;
-    
+
     let result: Trade = trades.filter(fetch_trade_id.eq(search_trade_id)).get_result::<Trade>(connection).unwrap();
 
     json!(result)

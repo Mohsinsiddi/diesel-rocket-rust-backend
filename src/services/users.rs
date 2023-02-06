@@ -18,7 +18,7 @@ pub fn get_user(user_id :&str) -> Value {
     .filter(id.eq(&appropriate_filter))
     .limit(1)
     .load::<User>(connection)
-    .expect("Error loading role");
+    .expect("Error loading user");
     let search_user_id = &user[0].id;
 
     let result: User = users.filter(fetch_user_id.eq(search_user_id)).get_result::<User>(connection).unwrap();

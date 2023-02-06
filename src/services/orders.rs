@@ -6,6 +6,26 @@ use workfall_rocket_rs::{
 use rocket::serde::json::{json, Value};
 extern crate bcrypt;
 
+pub fn get_order(order_id :&str) -> Value {
+    use workfall_rocket_rs::schema::orders::{dsl::*,id as fetch_order_id};
+
+    let connection = &mut establish_connection();
+
+    let appropriate_filter = order_id.to_string();
+
+    let order: Vec<Order> = orders
+    .filter(id.eq(&appropriate_filter))
+    .limit(1)
+    .load::<Order>(connection)
+    .expect("Error loading order");
+
+    let search_order_id = &order[0].id;
+    
+    let result: Order = orders.filter(fetch_order_id.eq(search_order_id)).get_result::<Order>(connection).unwrap();
+
+    json!(result)
+}
+
 pub fn get_orders() -> Value {
     use workfall_rocket_rs::schema::orders::dsl::*;
 
