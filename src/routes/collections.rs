@@ -14,6 +14,11 @@ pub fn get_collection(id:&str) -> Value {
     services::collections::get_collection(id)
 }
 
+#[get("/collection/orders/<id>")]
+pub fn get_collection_orders(id:&str) -> Value {
+    services::collections::get_collection_orders(id)
+}
+
 #[post("/collections/create-collection", format = "json", data = "<collection_info>")]
 pub fn create_collection(collection_info: Json<UserInputCollection>) -> Value {
     services::collections::create_collection(&collection_info)

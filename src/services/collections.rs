@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 use workfall_rocket_rs::{
-    models::models::{NewCollection,Collection,UserInputCollection},
+    models::models::{NewCollection,Collection,UserInputCollection,Order},
     *,
 };
 use rocket::serde::json::{json, Value};
@@ -21,6 +21,16 @@ pub fn get_collection(collection_id :&str) -> Value {
     let search_collection_id = &collection[0].id;
 
     let result: Collection = collections.filter(fetch_collection_id.eq(search_collection_id)).get_result::<Collection>(connection).unwrap();
+
+    json!(result)
+}
+
+pub fn get_collection_orders(col_id:&str) -> Value {
+    use workfall_rocket_rs::schema::orders::{dsl::*,collection_id as filter_collection_id};
+
+    let connection = &mut establish_connection();
+
+    let result: Vec<Order> = orders.filter(filter_collection_id.eq(col_id)).get_results::<Order>(connection).unwrap();
 
     json!(result)
 }
