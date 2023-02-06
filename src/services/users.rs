@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 use workfall_rocket_rs::{
-    models::models::{NewRole, NewUser, Role, User, UserInputUser, UserInputUpdateUser},
+    models::models::{NewRole, NewUser, Role, User, UserInputUser, UserInputUpdateUser,Trade},
     *,
 };
 use rocket::serde::json::{json, Value};
@@ -22,6 +22,17 @@ pub fn get_user(user_id :&str) -> Value {
     let search_user_id = &user[0].id;
 
     let result: User = users.filter(fetch_user_id.eq(search_user_id)).get_result::<User>(connection).unwrap();
+
+    json!(result)
+}
+
+
+pub fn get_user_trades( user_id:&str) -> Value {
+    use workfall_rocket_rs::schema::trades::{dsl::*,id as trade_id,created_by as created_by_id};
+
+    let connection = &mut establish_connection();
+
+    let result: Vec<Trade> = trades.filter(created_by_id.eq(user_id)).get_results::<Trade>(connection).unwrap();
 
     json!(result)
 }

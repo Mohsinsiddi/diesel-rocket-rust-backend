@@ -14,6 +14,11 @@ pub fn get_user(id: &str) -> Value {
     services::users::get_user(id)
 }
 
+#[get("/user/trades/<id>")]
+pub fn get_user_trades(id:&str) -> Value {
+    services::users::get_user_trades(id)
+}
+
 #[post("/users/add-role", format = "json", data = "<role_info>")]
 pub fn create_role(role_info: Json<UserInputRole>) -> Value {
     services::users::add_role(&role_info.role_name)

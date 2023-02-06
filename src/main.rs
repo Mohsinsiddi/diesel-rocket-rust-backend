@@ -7,7 +7,7 @@ mod services;
 
 // import routes here
 use routes::index::index;
-use routes::users::{get_users, create_role, create_user, update_user,get_user};
+use routes::users::{get_users, create_role, create_user, update_user,get_user,get_user_trades};
 use routes::collections::{get_collections,create_collection,get_collection};
 use routes::trades::{get_trades,create_trade,get_trade};
 use routes::orders::{get_orders,create_order,get_order};
@@ -33,6 +33,7 @@ fn rocket() -> _ {
     rocket::build().mount("/", routes![index, 
               get_users,
               get_user,
+              get_user_trades,
               create_role,
               create_user, 
               update_user,
