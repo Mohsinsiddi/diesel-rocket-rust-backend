@@ -6,6 +6,10 @@ use workfall_rocket_rs::{
 use rocket::serde::json::{json, Value};
 extern crate bcrypt;
 
+/*
+* Get collection details
+*/
+
 pub fn get_collection(collection_id :&str) -> Value {
     use workfall_rocket_rs::schema::collections::{dsl::*,id as fetch_collection_id};
 
@@ -25,6 +29,10 @@ pub fn get_collection(collection_id :&str) -> Value {
     json!(result)
 }
 
+/*
+* Get all collection orders details
+*/
+
 pub fn get_collection_orders(col_id:&str) -> Value {
     use workfall_rocket_rs::schema::orders::{dsl::*,collection_id as filter_collection_id};
 
@@ -35,6 +43,10 @@ pub fn get_collection_orders(col_id:&str) -> Value {
     json!(result)
 }
 
+/*
+* Get all collection details
+*/
+
 pub fn get_collections() -> Value {
     use workfall_rocket_rs::schema::collections::dsl::*;
 
@@ -44,6 +56,10 @@ pub fn get_collections() -> Value {
 
     json!(results)
 }
+
+/*
+* Create collection details
+*/
 
 pub fn create_collection(collection_details: &UserInputCollection) -> Value {
     use workfall_rocket_rs::schema::collections;

@@ -7,6 +7,10 @@ use rocket::serde::json::{json, Value};
 extern crate bcrypt;
 use bcrypt::{hash, DEFAULT_COST};
 
+/*
+* Get user details
+*/
+
 pub fn get_user(user_id :&str) -> Value {
     use workfall_rocket_rs::schema::users::{dsl::*,id as fetch_user_id};
 
@@ -26,6 +30,9 @@ pub fn get_user(user_id :&str) -> Value {
     json!(result)
 }
 
+/*
+* Get All user trade details
+*/
 
 pub fn get_user_trades( user_id:&str) -> Value {
     use workfall_rocket_rs::schema::trades::{dsl::*,id as trade_id,created_by as created_by_id};
@@ -37,6 +44,10 @@ pub fn get_user_trades( user_id:&str) -> Value {
     json!(result)
 }
 
+/*
+* Get All users details
+*/
+
 pub fn get_users() -> Value {
     use workfall_rocket_rs::schema::users::dsl::*;
 
@@ -46,6 +57,10 @@ pub fn get_users() -> Value {
 
     json!(results)
 }
+
+/*
+* Add Role details
+*/
 
 pub fn add_role(role_name: &str) -> Value {
     use workfall_rocket_rs::schema::roles;
@@ -63,6 +78,10 @@ pub fn add_role(role_name: &str) -> Value {
 
     json!(created_role)
 }
+
+/*
+* Create user details
+*/
 
 pub fn create_user(user_details: &UserInputUser) -> Value {
     use workfall_rocket_rs::schema::roles::dsl::*;

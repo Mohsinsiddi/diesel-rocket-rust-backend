@@ -6,6 +6,10 @@ use workfall_rocket_rs::{
 use rocket::serde::json::{json, Value};
 extern crate bcrypt;
 
+/*
+* Get order details
+*/
+
 pub fn get_order(order_id :&str) -> Value {
     use workfall_rocket_rs::schema::orders::{dsl::*,id as fetch_order_id};
 
@@ -26,6 +30,10 @@ pub fn get_order(order_id :&str) -> Value {
     json!(result)
 }
 
+/*
+* Get all order details
+*/
+
 pub fn get_orders() -> Value {
     use workfall_rocket_rs::schema::orders::dsl::*;
 
@@ -35,6 +43,10 @@ pub fn get_orders() -> Value {
 
     json!(results)
 }
+
+/*
+* Create Order details
+*/
 
 pub fn create_order(order_details: &UserInputOrder) -> Value {
     use workfall_rocket_rs::schema::trades::{dsl::*,id as trade_id};

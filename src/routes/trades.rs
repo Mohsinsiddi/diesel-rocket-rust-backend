@@ -1,5 +1,5 @@
 use rocket::serde::json::{Value, Json};
-use workfall_rocket_rs::{models::models::{UserInputTrade}};
+use workfall_rocket_rs::{models::models::{UserInputTrade,UserInputUpdateTrade}};
 
 // import services module
 use crate::services;
@@ -18,3 +18,10 @@ pub fn get_trade(id:&str) -> Value {
 pub fn create_trade(trade_info: Json<UserInputTrade>) -> Value {
     services::trades::create_trade(&trade_info)
 }
+
+#[post("/trade/accept_trade", format = "json", data = "<trade_info>")]
+pub fn accept_trade(trade_info: Json<UserInputUpdateTrade>) -> Value {
+    services::trades::accept_trade(&trade_info)
+}
+
+

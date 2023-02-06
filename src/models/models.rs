@@ -155,6 +155,18 @@ pub struct UserInputTrade {
     pub seller_address: String,
 }
 
+#[derive(Deserialize, Serialize)]
+pub struct UserInputUpdateTrade {
+    pub id : String,
+    pub title:  Option<String>,
+    pub content:  Option<String>,
+    pub created_by:  Option<String>,
+    pub accepted_order_id:  Option<i32>,
+    pub deposited_amount:  Option<i32>,
+    pub buyer_address:  Option<String>,
+    pub seller_address:  Option<String>,
+}
+
 /*
 * Order Models begins here
 */
