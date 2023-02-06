@@ -31,6 +31,30 @@ pub fn get_user(user_id :&str) -> Value {
 }
 
 /*
+* Get user details by user address
+*/
+
+pub fn get_user_by_address(user_addr :&str) -> Value {
+    use workfall_rocket_rs::schema::users::{dsl::*,id as user_id,address as fetch_user_addr};
+
+    let connection = &mut establish_connection();
+
+    let appropriate_filter = user_addr.to_string();
+
+    let user: Vec<User> = users
+    .filter(fetch_user_addr.eq(&appropriate_filter))
+    .limit(1)
+    .load::<User>(connection)
+    .expect("Error loading user");
+
+    let search_user_id = &user[0].id;
+
+    let result: User = users.filter(user_id.eq(search_user_id)).get_result::<User>(connection).unwrap();
+
+    json!(result)
+}
+
+/*
 * Get All user trade details
 */
 

@@ -14,6 +14,11 @@ pub fn get_user(id: &str) -> Value {
     services::users::get_user(id)
 }
 
+#[get("/user/address/<addr>")]
+pub fn get_user_by_address(addr:&str) -> Value {
+    services::users::get_user_by_address(addr)
+}
+
 #[get("/user/trades/<id>")]
 pub fn get_user_trades(id:&str) -> Value {
     services::users::get_user_trades(id)
