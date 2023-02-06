@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 use workfall_rocket_rs::{
-    models::models::{NewTrade,Trade,UserInputTrade, User,UserInputUpdateTrade},
+    models::models::{NewTrade,Trade,UserInputTrade, User,UserInputUpdateTrade,Order},
     *,
 };
 use rocket::serde::json::{json, Value};
@@ -42,6 +42,20 @@ pub fn get_trades() -> Value {
     let results: Vec<Trade> = trades.load::<Trade>(connection).expect("Error loading posts");
 
     json!(results)
+}
+
+/*
+* Get all trade orders details
+*/
+
+pub fn get_trade_orders(tra_id:&str) -> Value {
+    use workfall_rocket_rs::schema::orders::{dsl::*,trade_id as filter_trade_id};
+
+    let connection = &mut establish_connection();
+
+    let result: Vec<Order> = orders.filter(filter_trade_id.eq(tra_id)).get_results::<Order>(connection).unwrap();
+
+    json!(result)
 }
 
 /*
