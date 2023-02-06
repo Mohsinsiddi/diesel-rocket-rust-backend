@@ -7,6 +7,22 @@ use rocket::serde::json::{json, Value};
 extern crate bcrypt;
 use bcrypt::{hash, DEFAULT_COST};
 
+pub fn get_user(user_id :&str) -> Value {
+    use workfall_rocket_rs::schema::users::{dsl::*,id as fetch_user_id};
+    let connection = &mut establish_connection();
+    let appropriate_filter = user_id.to_string();
+    let user: Vec<User> = users
+    .filter(id.eq(&appropriate_filter))
+    .limit(1)
+    .load::<User>(connection)
+    .expect("Error loading role");
+    let search_user_id = &user[0].id;
+    //trades.filter(trade_creator_id.eq(msg.user_id)).get_results::<Trade>(&mut conn)
+    let result: User = users.filter(fetch_user_id.eq(search_user_id)).get_result::<User>(connection).unwrap();
+
+    json!(result)
+}
+
 pub fn get_users() -> Value {
     use workfall_rocket_rs::schema::users::dsl::*;
 

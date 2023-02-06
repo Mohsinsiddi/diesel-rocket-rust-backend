@@ -7,7 +7,7 @@ mod services;
 
 // import routes here
 use routes::index::index;
-use routes::users::{get_users, create_role, create_user, update_user};
+use routes::users::{get_users, create_role, create_user, update_user,get_user};
 use routes::collections::{get_collections,create_collection};
 use routes::trades::{get_trades,create_trade};
 use routes::orders::{get_orders,create_order};
@@ -32,6 +32,7 @@ fn server_error() -> Value {
 fn rocket() -> _ {
     rocket::build().mount("/", routes![index, 
               get_users,
+              get_user,
               create_role,
               create_user, 
               update_user,

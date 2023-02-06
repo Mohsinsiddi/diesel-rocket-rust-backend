@@ -9,6 +9,11 @@ pub fn get_users() -> Value {
     services::users::get_users()
 }
 
+#[get("/user/<id>")]
+pub fn get_user(id: &str) -> Value {
+    services::users::get_user(id)
+}
+
 #[post("/users/add-role", format = "json", data = "<role_info>")]
 pub fn create_role(role_info: Json<UserInputRole>) -> Value {
     services::users::add_role(&role_info.role_name)
