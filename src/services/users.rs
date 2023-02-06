@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 use workfall_rocket_rs::{
-    models::models::{NewRole, NewUser, Role, User, UserInputUser, UserInputUpdateUser,Trade},
+    models::models::{NewRole, NewUser, Role, User, UserInputUser, UserInputUpdateUser,Trade,Order},
     *,
 };
 use rocket::serde::json::{json, Value};
@@ -77,6 +77,21 @@ pub fn add_role(role_name: &str) -> Value {
         .expect("Error saving new role");
 
     json!(created_role)
+}
+
+/*
+* Get all user orders details
+*/
+
+pub fn get_user_orders(us_id:&str) -> Value {
+
+    use workfall_rocket_rs::schema::orders::{dsl::*,user_id as filter_order_id};
+
+    let connection = &mut establish_connection();
+
+    let result: Vec<Order> = orders.filter(filter_order_id.eq(us_id)).get_results::<Order>(connection).unwrap();
+
+    json!(result)
 }
 
 /*

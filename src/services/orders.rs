@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 use workfall_rocket_rs::{
-    models::models::{Order, NewOrder, UserInputOrder,Trade, Collection},
+    models::models::{Order, NewOrder,UserInputOrder,Trade, Collection, User},
     *,
 };
 use rocket::serde::json::{json, Value};
@@ -49,15 +49,22 @@ pub fn get_orders() -> Value {
 */
 
 pub fn create_order(order_details: &UserInputOrder) -> Value {
+    use workfall_rocket_rs::schema::users::{dsl::*,id as user_id};
     use workfall_rocket_rs::schema::trades::{dsl::*,id as trade_id};
     use workfall_rocket_rs::schema::collections::{dsl::*,id as collection_id};
     use workfall_rocket_rs::schema::orders;
 
     let connection = &mut establish_connection();
     
+    let appropriate_filter_user = &order_details.user_id;
     let appropriate_filter_trade = &order_details.trade_id;
     let appropriate_filter_collection = &order_details.collection_id;
 
+    let mut user: Vec<User> = users
+    .filter(user_id.eq(&appropriate_filter_user))
+    .limit(1)
+    .load::<User>(connection)
+    .expect("Error loading role");
 
     let mut trade: Vec<Trade> = trades
     .filter(trade_id.eq(&appropriate_filter_trade))
@@ -75,6 +82,7 @@ pub fn create_order(order_details: &UserInputOrder) -> Value {
 
     let new_order : NewOrder = NewOrder {
         id: &orderid,
+        user_id:&mut user[0].id,
         trade_id:&mut trade[0].id,
         collection_id:&mut  collection[0].id,
         trade_amount:&order_details.trade_amount,

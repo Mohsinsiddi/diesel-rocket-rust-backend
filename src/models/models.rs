@@ -174,6 +174,7 @@ pub struct UserInputUpdateTrade {
 #[derive(Queryable, Serialize, Deserialize)]
 pub struct Order {
     pub id: String,
+    pub user_id : String,
     pub trade_id: String,
     pub collection_id: String,
     pub trade_amount: i32,
@@ -185,6 +186,7 @@ pub struct Order {
 #[diesel(table_name = orders)]
 pub struct NewOrder<'a> {
     pub id:&'a str,
+    pub user_id : &'a str,
     pub trade_id: &'a str,
     pub collection_id: &'a str,
     pub trade_amount: &'a i32,
@@ -194,6 +196,7 @@ pub struct NewOrder<'a> {
 
 #[derive(Deserialize)]
 pub struct UserInputOrder {
+    pub user_id: String,
     pub trade_id: String,
     pub collection_id: String,
     pub trade_amount: i32,

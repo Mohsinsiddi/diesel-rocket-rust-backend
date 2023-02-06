@@ -15,6 +15,7 @@ diesel::table! {
 diesel::table! {
     orders (id) {
         id -> Varchar,
+        user_id -> Varchar,
         trade_id -> Varchar,
         collection_id -> Varchar,
         trade_amount -> Int4,
@@ -59,6 +60,7 @@ diesel::table! {
 
 diesel::joinable!(orders -> collections (collection_id));
 diesel::joinable!(orders -> trades (trade_id));
+diesel::joinable!(orders -> users (user_id));
 diesel::joinable!(trades -> users (created_by));
 diesel::joinable!(users -> roles (role_id));
 
