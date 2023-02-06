@@ -6,6 +6,26 @@ use workfall_rocket_rs::{
 use rocket::serde::json::{json, Value};
 extern crate bcrypt;
 
+pub fn get_trade(trade_id :&str) -> Value {
+    use workfall_rocket_rs::schema::trades::{dsl::*,id as fetch_trade_id};
+
+    let connection = &mut establish_connection();
+
+    let appropriate_filter = trade_id.to_string();
+
+    let user: Vec<Trade> = trades
+    .filter(id.eq(&appropriate_filter))
+    .limit(1)
+    .load::<Trade>(connection)
+    .expect("Error loading role");
+
+    let search_trade_id = &user[0].id;
+    
+    let result: Trade = trades.filter(fetch_trade_id.eq(search_trade_id)).get_result::<Trade>(connection).unwrap();
+
+    json!(result)
+}
+
 pub fn get_trades() -> Value {
     use workfall_rocket_rs::schema::trades::dsl::*;
 

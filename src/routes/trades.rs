@@ -9,6 +9,11 @@ pub fn get_trades() -> Value {
     services::trades::get_trades()
 }
 
+#[get("/trade/<id>")]
+pub fn get_trade(id:&str) -> Value {
+    services::trades::get_trade(id)
+}
+
 #[post("/trades/create-trade", format = "json", data = "<trade_info>")]
 pub fn create_trade(trade_info: Json<UserInputTrade>) -> Value {
     services::trades::create_trade(&trade_info)
