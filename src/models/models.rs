@@ -1,7 +1,7 @@
 use diesel::{prelude::*};
 use rocket::serde::{Serialize, Deserialize};
 
-use crate::schema::{roles, users, collections, trades,orders};
+use crate::db::schema::{roles, users, collections, trades,orders};
 
 /*
 * User models begin from here

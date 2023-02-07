@@ -11,7 +11,7 @@ extern crate bcrypt;
 */
 
 pub fn get_trade(trade_id :&str) -> Value {
-    use workfall_rocket_rs::schema::trades::{dsl::*,id as fetch_trade_id};
+    use workfall_rocket_rs::db::schema::trades::{dsl::*,id as fetch_trade_id};
 
     let connection = &mut establish_connection();
 
@@ -35,7 +35,7 @@ pub fn get_trade(trade_id :&str) -> Value {
 */
 
 pub fn get_trades() -> Value {
-    use workfall_rocket_rs::schema::trades::dsl::*;
+    use workfall_rocket_rs::db::schema::trades::dsl::*;
 
     let connection = &mut establish_connection();
 
@@ -49,7 +49,7 @@ pub fn get_trades() -> Value {
 */
 
 pub fn get_trade_orders(tra_id:&str) -> Value {
-    use workfall_rocket_rs::schema::orders::{dsl::*,trade_id as filter_trade_id};
+    use workfall_rocket_rs::db::schema::orders::{dsl::*,trade_id as filter_trade_id};
 
     let connection = &mut establish_connection();
 
@@ -63,8 +63,8 @@ pub fn get_trade_orders(tra_id:&str) -> Value {
 */
 
 pub fn create_trade(trade_details: &UserInputTrade) -> Value {
-    use workfall_rocket_rs::schema::trades;
-    use workfall_rocket_rs::schema::users::{dsl::*,id as user_id};
+    use workfall_rocket_rs::db::schema::trades;
+    use workfall_rocket_rs::db::schema::users::{dsl::*,id as user_id};
 
     let connection = &mut establish_connection();
     
@@ -101,7 +101,7 @@ pub fn create_trade(trade_details: &UserInputTrade) -> Value {
 * Accept trade details
 */
 pub fn accept_trade(trade_details: &UserInputUpdateTrade) -> Value {
-    use workfall_rocket_rs::schema::trades::{dsl::*,id as trade_id};
+    use workfall_rocket_rs::db::schema::trades::{dsl::*,id as trade_id};
 
     let connection = &mut establish_connection();
 

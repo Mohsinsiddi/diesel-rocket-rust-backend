@@ -11,7 +11,7 @@ extern crate bcrypt;
 */
 
 pub fn get_order(order_id :&str) -> Value {
-    use workfall_rocket_rs::schema::orders::{dsl::*,id as fetch_order_id};
+    use workfall_rocket_rs::db::schema::orders::{dsl::*,id as fetch_order_id};
 
     let connection = &mut establish_connection();
 
@@ -35,7 +35,7 @@ pub fn get_order(order_id :&str) -> Value {
 */
 
 pub fn get_orders() -> Value {
-    use workfall_rocket_rs::schema::orders::dsl::*;
+    use workfall_rocket_rs::db::schema::orders::dsl::*;
 
     let connection = &mut establish_connection();
 
@@ -49,10 +49,10 @@ pub fn get_orders() -> Value {
 */
 
 pub fn create_order(order_details: &UserInputOrder) -> Value {
-    use workfall_rocket_rs::schema::users::{dsl::*,id as user_id};
-    use workfall_rocket_rs::schema::trades::{dsl::*,id as trade_id};
-    use workfall_rocket_rs::schema::collections::{dsl::*,id as collection_id};
-    use workfall_rocket_rs::schema::orders;
+    use workfall_rocket_rs::db::schema::users::{dsl::*,id as user_id};
+    use workfall_rocket_rs::db::schema::trades::{dsl::*,id as trade_id};
+    use workfall_rocket_rs::db::schema::collections::{dsl::*,id as collection_id};
+    use workfall_rocket_rs::db::schema::orders;
 
     let connection = &mut establish_connection();
     

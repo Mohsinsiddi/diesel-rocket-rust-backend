@@ -12,7 +12,7 @@ use bcrypt::{hash, DEFAULT_COST};
 */
 
 pub fn get_user(user_id :&str) -> Value {
-    use workfall_rocket_rs::schema::users::{dsl::*,id as fetch_user_id};
+    use workfall_rocket_rs::db::schema::users::{dsl::*,id as fetch_user_id};
 
     let connection = &mut establish_connection();
 
@@ -35,7 +35,7 @@ pub fn get_user(user_id :&str) -> Value {
 */
 
 pub fn get_user_by_address(user_addr :&str) -> Value {
-    use workfall_rocket_rs::schema::users::{dsl::*,id as user_id,address as fetch_user_addr};
+    use workfall_rocket_rs::db::schema::users::{dsl::*,id as user_id,address as fetch_user_addr};
 
     let connection = &mut establish_connection();
 
@@ -59,7 +59,7 @@ pub fn get_user_by_address(user_addr :&str) -> Value {
 */
 
 pub fn get_user_trades( user_id:&str) -> Value {
-    use workfall_rocket_rs::schema::trades::{dsl::*,created_by as created_by_id};
+    use workfall_rocket_rs::db::schema::trades::{dsl::*,created_by as created_by_id};
 
     let connection = &mut establish_connection();
 
@@ -73,7 +73,7 @@ pub fn get_user_trades( user_id:&str) -> Value {
 */
 
 pub fn get_users() -> Value {
-    use workfall_rocket_rs::schema::users::dsl::*;
+    use workfall_rocket_rs::db::schema::users::dsl::*;
 
     let connection = &mut establish_connection();
 
@@ -87,7 +87,7 @@ pub fn get_users() -> Value {
 */
 
 pub fn add_role(role_name: &str) -> Value {
-    use workfall_rocket_rs::schema::roles;
+    use workfall_rocket_rs::db::schema::roles;
 
     let id = uuid::Uuid::new_v4().to_string();
 
@@ -109,7 +109,7 @@ pub fn add_role(role_name: &str) -> Value {
 
 pub fn get_user_orders(us_id:&str) -> Value {
 
-    use workfall_rocket_rs::schema::orders::{dsl::*,user_id as filter_order_id};
+    use workfall_rocket_rs::db::schema::orders::{dsl::*,user_id as filter_order_id};
 
     let connection = &mut establish_connection();
 
@@ -123,7 +123,7 @@ pub fn get_user_orders(us_id:&str) -> Value {
 */
 
 pub fn create_user(user_details: &UserInputUser) -> Value {
-    use workfall_rocket_rs::schema::users;
+    use workfall_rocket_rs::db::schema::users;
 
     let connection = &mut establish_connection();
 
@@ -156,7 +156,7 @@ pub fn create_user(user_details: &UserInputUser) -> Value {
 */
 pub fn update_user(user_details: &UserInputUpdateUser) -> Value {
     // use workfall_rocket_rs::schema::users;
-    use workfall_rocket_rs::schema::users::dsl::*;
+    use workfall_rocket_rs::db::schema::users::dsl::*;
 
     let connection = &mut establish_connection();
 
