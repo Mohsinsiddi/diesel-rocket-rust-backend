@@ -6,20 +6,20 @@ use crate::services;
 
 #[get("/collections")]
 pub fn get_collections() -> Value {
-    services::collections::get_collections()
+    services::collections::collections_services::get_collections()
 }
 
 #[get("/collection/<id>")]
 pub fn get_collection(id:&str) -> Value {
-    services::collections::get_collection(id)
+    services::collections::collections_services::get_collection(id)
 }
 
 #[get("/collection/orders/<id>")]
 pub fn get_collection_orders(id:&str) -> Value {
-    services::collections::get_collection_orders(id)
+    services::collections::collections_services::get_collection_orders(id)
 }
 
 #[post("/collections/create-collection", format = "json", data = "<collection_info>")]
 pub fn create_collection(collection_info: Json<UserInputCollection>) -> Value {
-    services::collections::create_collection(&collection_info)
+    services::collections::collections_services::create_collection(&collection_info)
 }
