@@ -72,6 +72,7 @@ pub fn create_collection(collection_details: &UserInputCollection) -> Value {
     let new_collection : NewCollection = NewCollection {
         id : &collectionid,
         collection_name:&collection_details.collection_name,
+        collection_id_name:&collection_details.collection_id_name,
         ceiling_price:&collection_details.ceiling_price,
         active_trades:&collection_details.active_trades,
         total_trades:&collection_details.total_trades,

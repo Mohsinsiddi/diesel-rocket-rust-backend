@@ -81,8 +81,7 @@ pub fn create_trade(trade_details: &UserInputTrade) -> Value {
 
     let new_trade : NewTrade = NewTrade {
         id: &tradeid,
-        title:&trade_details.title,
-        content:&trade_details.content,
+        total_orders:&trade_details.total_orders,
         created_by: &mut user[0].id,
         accepted_order_id:&trade_details.accepted_order_id,
         deposited_amount:&trade_details.deposited_amount,
@@ -114,8 +113,7 @@ pub fn accept_trade(trade_details: &UserInputUpdateTrade) -> Value {
 
     let updated_trade_body: NewTrade = NewTrade {
         id: &existing_trade[0].id,
-        title:&trade_details.title.clone().unwrap_or(existing_trade[0].title.clone()),
-        content:&trade_details.content.clone().unwrap_or(existing_trade[0].content.clone()),
+        total_orders:&trade_details.total_orders.clone().unwrap_or(existing_trade[0].total_orders.clone()),
         created_by: &trade_details.created_by.clone().unwrap_or(existing_trade[0].created_by.clone()),
         accepted_order_id:&trade_details.accepted_order_id.clone().unwrap_or(existing_trade[0].accepted_order_id.clone()),
         deposited_amount:&trade_details.deposited_amount.clone().unwrap_or(existing_trade[0].deposited_amount.clone()),

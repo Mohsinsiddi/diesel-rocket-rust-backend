@@ -2,8 +2,7 @@
 
 CREATE TABLE trades (
   id VARCHAR NOT NULL,
-  title VARCHAR NOT NULL,
-  content text NOT NULL,
+  total_orders INT NOT NULL, -- this is added
   created_by VARCHAR NOT NULL,
   accepted_order_id INT NOT NULL,
   deposited_amount INT NOT NULL,

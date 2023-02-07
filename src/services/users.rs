@@ -59,7 +59,7 @@ pub fn get_user_by_address(user_addr :&str) -> Value {
 */
 
 pub fn get_user_trades( user_id:&str) -> Value {
-    use workfall_rocket_rs::schema::trades::{dsl::*,id as trade_id,created_by as created_by_id};
+    use workfall_rocket_rs::schema::trades::{dsl::*,created_by as created_by_id};
 
     let connection = &mut establish_connection();
 
@@ -123,21 +123,9 @@ pub fn get_user_orders(us_id:&str) -> Value {
 */
 
 pub fn create_user(user_details: &UserInputUser) -> Value {
-    use workfall_rocket_rs::schema::roles::dsl::*;
     use workfall_rocket_rs::schema::users;
 
     let connection = &mut establish_connection();
-
-    let appropriate_filter = match &user_details.role_id {
-        Some(role_id_value) => role_id_value.to_string(),
-        None => "USER".to_string(),
-    };
-
-    let mut role: Vec<Role> = roles
-    .filter(id.eq(&appropriate_filter)).or_filter(role_name.eq(&appropriate_filter))
-    .limit(1)
-    .load::<Role>(connection)
-    .expect("Error loading role");
 
     let user_id = uuid::Uuid::new_v4().to_string();
 
@@ -150,7 +138,6 @@ pub fn create_user(user_details: &UserInputUser) -> Value {
         middle_name: &user_details.middle_name,
         last_name: &user_details.last_name,
         email: &user_details.email,
-        role_id: &mut role[0].id,
         password: &hashed,
         address:&user_details.address,
         user_name:&user_details.user_name
@@ -187,7 +174,6 @@ pub fn update_user(user_details: &UserInputUpdateUser) -> Value {
         middle_name: &user_details.middle_name.clone().unwrap_or(existing_user[0].middle_name.clone().unwrap()),
         last_name: &user_details.last_name.clone().unwrap_or(existing_user[0].last_name.clone()),
         email: &user_details.email.clone().unwrap_or(existing_user[0].email.clone()),
-        role_id: &user_details.role_id.clone().unwrap_or(existing_user[0].role_id.clone()),
         password: match &user_details.password {
             Some(new_password) => {
                 hashed = hash(new_password, DEFAULT_COST).unwrap();

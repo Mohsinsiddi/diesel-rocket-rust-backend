@@ -14,7 +14,6 @@ pub struct User {
     pub middle_name: Option<String>,
     pub last_name: String,
     pub email: String,
-    pub role_id: String,
     pub password: String,
     pub address: String,
     pub user_name: String
@@ -28,7 +27,6 @@ pub struct NewUser<'a> {
     pub middle_name: &'a str,
     pub last_name: &'a str,
     pub email: &'a str,
-    pub role_id: &'a str,
     pub password: &'a str,
     pub address: &'a str,
     pub user_name: &'a str
@@ -40,7 +38,6 @@ pub struct UserInputUser {
     pub middle_name: String,
     pub last_name: String,
     pub email: String,
-    pub role_id: Option<String>,
     pub password: String,
     pub address : String,
     pub user_name: String
@@ -52,7 +49,6 @@ pub struct UserInputUpdateUser {
     pub middle_name: Option<String>,
     pub last_name: Option<String>,
     pub email: Option<String>,
-    pub role_id: Option<String>,
     pub password: Option<String>,
     pub address : Option<String>,
     pub user_name: Option<String>
@@ -87,6 +83,7 @@ pub struct UserInputRole {
 pub struct Collection {
     pub id: String,
     pub collection_name: String,
+    pub collection_id_name: String,
     pub ceiling_price: i32,
     pub active_trades: i32,
     pub total_trades: i32,
@@ -99,6 +96,7 @@ pub struct Collection {
 pub struct NewCollection<'a> {
     pub id: &'a str,
     pub collection_name: &'a str,
+    pub collection_id_name:&'a str,
     pub ceiling_price: &'a i32 ,
     pub active_trades: &'a i32,
     pub total_trades: &'a i32,
@@ -109,6 +107,7 @@ pub struct NewCollection<'a> {
 #[derive(Deserialize)]
 pub struct UserInputCollection {
     pub collection_name: String,
+    pub collection_id_name: String,
     pub ceiling_price: i32,
     pub active_trades: i32,
     pub total_trades: i32,
@@ -122,8 +121,7 @@ pub struct UserInputCollection {
 #[derive(Queryable, Serialize, Deserialize)]
 pub struct Trade {
     pub id: String,
-    pub title: String,
-    pub content: String,
+    pub total_orders: i32,
     pub created_by: String,
     pub accepted_order_id: i32,
     pub deposited_amount: i32,
@@ -135,8 +133,7 @@ pub struct Trade {
 #[diesel(table_name = trades)]
 pub struct NewTrade<'a> {
     pub id:&'a str,
-    pub title: &'a str,
-    pub content: &'a str,
+    pub total_orders:&'a i32,
     pub created_by: &'a str,
     pub accepted_order_id: &'a i32,
     pub deposited_amount: &'a i32,
@@ -146,8 +143,7 @@ pub struct NewTrade<'a> {
 
 #[derive(Deserialize)]
 pub struct UserInputTrade {
-    pub title: String,
-    pub content: String,
+    pub total_orders: i32,
     pub created_by: String,
     pub accepted_order_id: i32,
     pub deposited_amount: i32,
@@ -158,8 +154,7 @@ pub struct UserInputTrade {
 #[derive(Deserialize, Serialize)]
 pub struct UserInputUpdateTrade {
     pub id : String,
-    pub title:  Option<String>,
-    pub content:  Option<String>,
+    pub total_orders: Option<i32>,
     pub created_by:  Option<String>,
     pub accepted_order_id:  Option<i32>,
     pub deposited_amount:  Option<i32>,
