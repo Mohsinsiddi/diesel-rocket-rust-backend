@@ -7,10 +7,10 @@ mod services;
 
 // import routes here
 use routes::index::index;
-use routes::users::{get_users, create_role, create_user, update_user,get_user,get_user_trades,get_user_orders,get_user_by_address};
-use routes::collections::{get_collections,create_collection,get_collection,get_collection_orders};
-use routes::trades::{get_trades,create_trade,get_trade,accept_trade,get_trade_orders};
-use routes::orders::{get_orders,create_order,get_order};
+use routes::users::users_routes::{get_users, create_role, create_user, update_user,get_user,get_user_trades,get_user_orders,get_user_by_address};
+use routes::collections::collections_routes::{get_collections,create_collection,get_collection,get_collection_orders};
+use routes::trades::trades_routes::{get_trades,create_trade,get_trade,accept_trade,get_trade_orders};
+use routes::orders::orders_routes::{get_orders,create_order,get_order};
 
 #[catch(404)]
 fn not_found() -> Value {
