@@ -175,6 +175,7 @@ pub struct Order {
     pub trade_amount: i32,
     pub rarity: String,
     pub collection_root: String,
+    pub is_accepted : bool
 }
 
 #[derive(Insertable, Serialize, AsChangeset)]
@@ -187,6 +188,7 @@ pub struct NewOrder<'a> {
     pub trade_amount: &'a i32,
     pub rarity: &'a str,
     pub collection_root: &'a str,
+    pub is_accepted :&'a bool
 } 
 
 #[derive(Deserialize)]
@@ -197,4 +199,17 @@ pub struct UserInputOrder {
     pub trade_amount: i32,
     pub rarity: String,
     pub collection_root: String,
+    pub is_accepted : bool
+}
+
+#[derive(Deserialize,Serialize)]
+pub struct UserInputUpdateOrder {
+    pub id : String,
+    pub user_id: Option<String>,
+    pub trade_id: Option<String>,
+    pub collection_id: Option<String>,
+    pub trade_amount: Option<i32>,
+    pub rarity: Option<String>,
+    pub collection_root: Option<String>,
+    pub is_accepted : Option<bool>
 }

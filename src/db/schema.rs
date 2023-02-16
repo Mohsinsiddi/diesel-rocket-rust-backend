@@ -22,6 +22,7 @@ diesel::table! {
         trade_amount -> Int4,
         rarity -> Varchar,
         collection_root -> Varchar,
+        is_accepted -> Bool,
     }
 }
 

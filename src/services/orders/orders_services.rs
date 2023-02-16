@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 use workfall_rocket_rs::{
-    models::models::{Order, NewOrder,UserInputOrder,Trade, Collection, User},
+    models::models::{Order, NewOrder,UserInputOrder,Trade, Collection, User, UserInputUpdateOrder},
     *,
 };
 use rocket::serde::json::{json, Value};
@@ -87,7 +87,8 @@ pub fn create_order(order_details: &UserInputOrder) -> Value {
         collection_id:&mut  collection[0].id,
         trade_amount:&order_details.trade_amount,
         rarity:&order_details.rarity,
-        collection_root:&order_details.collection_root
+        collection_root:&order_details.collection_root,
+        is_accepted : &&order_details.is_accepted
     };
 
     let created_order: Order = diesel::insert_into(orders::table)
@@ -98,3 +99,37 @@ pub fn create_order(order_details: &UserInputOrder) -> Value {
     json!(created_order)
 }
 
+
+/*
+* Update order details
+*/
+pub fn update_order(order_details: &UserInputUpdateOrder) -> Value {
+    // use workfall_rocket_rs::schema::users;
+    use workfall_rocket_rs::db::schema::orders::{dsl::*,id as order_id};
+
+    let connection = &mut establish_connection();
+
+    let existing_order = orders
+    .filter(order_id.eq(order_details.id.clone()))
+    .limit(1)
+    .load::<Order>(connection)
+    .expect("Error fetching user");
+
+    let updated_order_body: NewOrder = NewOrder {
+        id: &existing_order[0].id,
+        user_id: &order_details.user_id.clone().unwrap_or(existing_order[0].user_id.clone()),
+        trade_id: &order_details.trade_id.clone().unwrap_or(existing_order[0].trade_id.clone().clone()),
+        collection_id: &order_details.collection_id.clone().unwrap_or(existing_order[0].collection_id.clone()),
+        trade_amount: &order_details.trade_amount.clone().unwrap_or(existing_order[0].trade_amount.clone()),
+        rarity:&order_details.rarity.clone().unwrap_or(existing_order[0].rarity.clone()),
+        collection_root:&order_details.collection_root.clone().unwrap_or(existing_order[0].collection_root.clone()),
+        is_accepted:&order_details.is_accepted.clone().unwrap_or(existing_order[0].is_accepted.clone()),
+    };
+    
+    let updated_order: Order = diesel::update(orders.filter(order_id.eq(order_details.id.clone())))
+    .set(&updated_order_body)
+    .get_result::<Order>(connection)
+    .expect("Error updating user");
+
+    json!(updated_order)
+}

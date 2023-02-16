@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS orders
     trade_amount INT NOT NULL,
     rarity VARCHAR(255) NOT NULL,
     collection_root VARCHAR(255) NOT NULL,
+    is_accepted BOOLEAN NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (trade_id) REFERENCES trades(id) ON DELETE CASCADE,
     FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE

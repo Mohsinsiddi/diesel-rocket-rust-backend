@@ -1,9 +1,11 @@
-use diesel::prelude::*;
+use diesel::{prelude::*, associations::HasTable};
 use workfall_rocket_rs::{
-    models::models::{NewTrade,Trade,UserInputTrade, User,UserInputUpdateTrade,Order},
+    models::models::{NewTrade,Trade,UserInputTrade, User,UserInputUpdateTrade,Order, UserInputUpdateOrder},
     *,
 };
 use rocket::serde::json::{json, Value};
+
+use crate::services::orders::orders_services::update_order;
 extern crate bcrypt;
 
 /*
@@ -39,7 +41,7 @@ pub fn get_trades() -> Value {
 
     let connection = &mut establish_connection();
 
-    let results: Vec<Trade> = trades.load::<Trade>(connection).expect("Error loading posts");
+    let results: Vec<Trade> = trades.load::<Trade>(connection).expect("Error loading trades");
 
     json!(results)
 }
@@ -75,7 +77,7 @@ pub fn create_trade(trade_details: &UserInputTrade) -> Value {
     .filter(user_id.eq(&appropriate_filter))
     .limit(1)
     .load::<User>(connection)
-    .expect("Error loading role");
+    .expect("Error loading user");
 
     let tradeid = uuid::Uuid::new_v4().to_string();
 
@@ -92,7 +94,7 @@ pub fn create_trade(trade_details: &UserInputTrade) -> Value {
     let created_trade: Trade = diesel::insert_into(trades::table)
         .values(&new_trade)
         .get_result::<Trade>(connection)
-        .expect("Error saving new collection");
+        .expect("Error saving new trade");
 
     json!(created_trade)
 }
@@ -101,7 +103,9 @@ pub fn create_trade(trade_details: &UserInputTrade) -> Value {
 * Accept trade details
 */
 pub fn accept_trade(trade_details: &UserInputUpdateTrade) -> Value {
+    
     use workfall_rocket_rs::db::schema::trades::{dsl::*,id as trade_id};
+    use workfall_rocket_rs::db::schema::orders::{dsl::*,trade_id as filter_trade_id,id as order_id};
 
     let connection = &mut establish_connection();
 
@@ -110,7 +114,7 @@ pub fn accept_trade(trade_details: &UserInputUpdateTrade) -> Value {
     .limit(1)
     .load::<Trade>(connection)
     .expect("Error fetching trade");
-
+    
     let updated_trade_body: NewTrade = NewTrade {
         id: &existing_trade[0].id,
         total_orders:&trade_details.total_orders.clone().unwrap_or(existing_trade[0].total_orders.clone()),
@@ -126,5 +130,26 @@ pub fn accept_trade(trade_details: &UserInputUpdateTrade) -> Value {
     .get_result::<Trade>(connection)
     .expect("Error accepting trade ");
 
-    json!(updated_trade)
+
+    let trade_orders: Vec<Order> = orders
+                          .filter(filter_trade_id.eq(trade_details.id.clone()))
+                          .get_results::<Order>(connection).unwrap();
+
+    let mut updated_orders = Vec::new();
+    for order in trade_orders {
+        let updated_order: UserInputUpdateOrder = UserInputUpdateOrder {
+            id: order.id,
+            user_id:Some(order.user_id),
+            trade_id:Some(order.trade_id),
+            collection_id:Some(order.collection_id),
+            trade_amount:Some(order.trade_amount),
+            rarity:Some(order.rarity),
+            collection_root:Some(order.collection_root),
+            is_accepted :Some(true),
+        };
+        update_order(&updated_order);
+        updated_orders.push(updated_order);
+    }
+
+    json!(updated_orders)
 }
